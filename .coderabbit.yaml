@@ -1,0 +1,38 @@
+language: en-US
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: false
+
+chat:
+  auto_reply: true
+
+code_generation:
+  docstrings:
+    enabled: false
+
+path_instructions:
+  - path: "src/lib/ui/**/*.svelte"
+    instructions: |
+      This is a Svelte 5 UI kit library. Components use:
+      - tailwind-variants (tv) for styling
+      - svelte-runes (SS type) for reactive state
+      - $ui/* path aliases for internal imports
+      Check for: missing TypeScript types, accessibility issues (aria attributes),
+      breaking changes in exported props, memory leaks in $effect blocks.
+
+  - path: "src/lib/utils/**/*.ts"
+    instructions: |
+      Pure utility functions. Check for: edge cases with null/undefined/NaN/Infinity,
+      incorrect number formatting, off-by-one errors in date calculations.
+
+  - path: "src/lib/**/*.ts"
+    instructions: |
+      Public library API. Flag any changes that could be breaking for consumers
+      of this package (removed exports, changed function signatures, renamed types).
