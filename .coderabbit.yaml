@@ -48,6 +48,13 @@ path_instructions:
       - Do NOT use `generics` attribute on <script> tag (causes eslint errors)
       - Use `type T = $$Generic` inside script instead
 
+      LIFECYCLE:
+      - Prefer onMount over $effect for browser-only initialization code that runs once
+      - Use $effect only when you need to re-run logic when reactive signals change
+      - Flag $effect blocks that have no reactive dependencies — they should be onMount instead
+      - Flag $effect blocks used purely for initialization without any tracked signals
+      - Flag `if (BROWSER)` checks inside $effect blocks — they are redundant since $effect already only runs in the browser
+
       GENERAL:
       - Uses tailwind-variants (tv) for styling
       - Uses SS type from svelte-runes for reactive refs
