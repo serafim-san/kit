@@ -2,7 +2,6 @@ import type { StorybookConfig } from '@storybook/sveltekit'
 
 import { mergeConfig } from 'vite'
 
-import { WebkitSvg } from '../plugins/vite.js'
 
 const config: StorybookConfig = {
   stories: ['../src/stories/**/*.mdx', '../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -24,7 +23,6 @@ const config: StorybookConfig = {
 
   async viteFinal(config) {
     const result = mergeConfig(config, {
-      plugins: [WebkitSvg()],
       sever: {
         fs: { allow: ['../'] },
       },
