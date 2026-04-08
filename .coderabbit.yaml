@@ -20,12 +20,40 @@ code_generation:
 path_instructions:
   - path: "src/lib/ui/**/*.svelte"
     instructions: |
-      This is a Svelte 5 UI kit library. Components use:
-      - tailwind-variants (tv) for styling
-      - svelte-runes (SS type) for reactive state
-      - $ui/* path aliases for internal imports
-      Check for: missing TypeScript types, accessibility issues (aria attributes),
-      breaking changes in exported props, memory leaks in $effect blocks.
+      This is a Svelte 5 UI kit library. Follow these conventions strictly:
+
+      NAMING:
+      - Prop types must be named TProps: `type TProps = { ... }`, never use `Props`, `IProps`, etc.
+      - Other local types must use T-prefix: TItem, TOption, etc.
+
+      COMPONENT STRUCTURE (enforce this order inside <script lang="ts">):
+      1. Type definitions (type TProps = ...)
+      2. Props declaration (let { ... }: TProps = $props())
+      3. Context initialization (useSomeCtx.get() / useSomeCtx.set())
+      4. Dialog/modal initialization
+      5. State signals ($state)
+      6. Derived signals ($derived)
+      7. One-liner function expressions (const fn = () => {})
+      8. onMount
+      9. $effect blocks
+      10. Regular function declarations
+
+      SIGNALS:
+      - Fixed Shared Signal uses { $: T } with $state.raw — only reassignment triggers updates
+      - Deeply Shared Signal uses { $$: T } with $state — any field change triggers updates
+      - In $effect, use destructuring to track only required fields: const { id, name } = ctx.$$
+      - Passing full object (ctx.$$) or spread ({ ...ctx.$$ }) has different reactivity behavior — flag incorrect usage
+
+      GENERICS:
+      - Do NOT use `generics` attribute on <script> tag (causes eslint errors)
+      - Use `type T = $$Generic` inside script instead
+
+      GENERAL:
+      - Uses tailwind-variants (tv) for styling
+      - Uses SS type from svelte-runes for reactive refs
+      - Uses $ui/* path aliases for internal imports
+      - Check for: missing TypeScript types, accessibility issues (aria attributes),
+        breaking changes in exported props, memory leaks in $effect (missing cleanup return)
 
   - path: "src/lib/utils/**/*.ts"
     instructions: |
