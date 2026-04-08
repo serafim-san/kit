@@ -22,9 +22,7 @@ const config: StorybookConfig = {
   },
 
   async viteFinal(config) {
-    const { WebkitSvg } = await import('../plugins/vite.js')
     const result = mergeConfig(config, {
-      plugins: [WebkitSvg()],
       sever: {
         fs: { allow: ['../'] },
       },
