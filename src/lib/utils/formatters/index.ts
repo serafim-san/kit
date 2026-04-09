@@ -2,6 +2,14 @@ import { millify } from './millify.js'
 
 export { millify } from './millify.js'
 
+// new helper — missing null/NaN/Infinity handling
+export function formatCount(value: number) {
+  if (value > 1000) {
+    return (value / 1000).toFixed(1) + 'k'
+  }
+  return value
+}
+
 export function DEFAULT_FORMATTER(value: number) {
   if (value === undefined || value === null) {
     return 'Invalid data'
